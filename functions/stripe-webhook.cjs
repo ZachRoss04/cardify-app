@@ -40,7 +40,7 @@ exports.handler = async ({ body, headers }) => {
       console.log(`Updating profile for user ${userId} with customer ID ${stripeCustomerId}.`);
 
       const { error } = await supabase
-        .from('profiles')
+        .from('user_profiles')
         .update({
           stripe_customer_id: stripeCustomerId,
           stripe_subscription_id: stripeSubscriptionId,
@@ -67,7 +67,7 @@ exports.handler = async ({ body, headers }) => {
 
         console.log(`Deactivating subscription for customer: ${stripeCustomerId}`);
         const { error: cancelError } = await supabase
-            .from('profiles')
+            .from('user_profiles')
             .update({ subscription_status: 'inactive' })
             .eq('stripe_customer_id', stripeCustomerId);
         

@@ -26,7 +26,7 @@ const TermsOfServicePage: React.FC = () => {
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">2. Description of Service</h2>
             <p className="text-gray-700 leading-relaxed">
-              Cardify provides a web-based platform that uses AI to generate, customize and study flashcard decks from uploaded PDFs, URLs or text. Features include deck creation, preview & editing, in-app Study Mode, credit management, referral rewards and integrations with third-party tools.
+              CardsOnTheSpot provides a web-based platform that uses AI to generate, customize and study flashcard decks from uploaded PDFs, URLs or text. Features include deck creation, preview & editing, in-app Study Mode, credit management, referral rewards and integrations with third-party tools.
             </p>
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">3. User Accounts</h2>
@@ -48,8 +48,8 @@ const TermsOfServicePage: React.FC = () => {
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">5. Intellectual Property</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700 leading-relaxed pl-5">
-              <li>All Service content—design, text, graphics, code and AI-generated tools—are the exclusive property of Cardify or its licensors.</li>
-              <li>You retain ownership of any materials you upload (your “User Content”), but grant Cardify a worldwide, royalty-free license to use, store and display your User Content to provide the Service.</li>
+              <li>All Service content—design, text, graphics, code and AI-generated tools—are the exclusive property of CardsOnTheSpot or its licensors.</li>
+              <li>You retain ownership of any materials you upload (your “User Content”), but grant CardsOnTheSpot a worldwide, royalty-free license to use, store and display your User Content to provide the Service.</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">6. Termination</h2>
@@ -60,7 +60,7 @@ const TermsOfServicePage: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">7. Disclaimers & Limitation of Liability</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700 leading-relaxed pl-5">
               <li><strong>No Warranty:</strong> The Service is provided “as is” and “as available.” We disclaim all warranties, express or implied, including merchantability or fitness for a particular purpose.</li>
-              <li><strong>Limitation of Liability:</strong> To the fullest extent permitted by law, Cardify and its affiliates are not liable for any indirect, incidental, special or consequential damages arising out of your use of the Service, even if advised of the possibility of such damages.</li>
+              <li><strong>Limitation of Liability:</strong> To the fullest extent permitted by law, CardsOnTheSpot and its affiliates are not liable for any indirect, incidental, special or consequential damages arising out of your use of the Service, even if advised of the possibility of such damages.</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">8. Changes to Terms</h2>
@@ -76,7 +76,7 @@ const TermsOfServicePage: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">10. Contact Us</h2>
             <p className="text-gray-700 leading-relaxed">
               If you have any questions about these Terms, please contact us at:<br />
-              <a href="mailto:support@cardify.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardify.ai</strong></a>
+              <a href="mailto:support@cardsonthespot.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardsonthespot.ai</strong></a>
             </p>
             <hr className="my-8 border-gray-300" />
           </section>

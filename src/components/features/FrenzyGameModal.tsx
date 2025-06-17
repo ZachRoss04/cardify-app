@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import Button from '../ui/Button';
 import { Card } from '../../types'; // Import Card type
-import { CardifyAPI } from '../../lib/api'; // Import CardifyAPI
+import { CardsOnTheSpotAPI } from '../../lib/api'; // Import CardsOnTheSpotAPI
 
 interface FrenzyGameModalProps {
   isOpen: boolean;
@@ -119,7 +119,7 @@ const FrenzyGameModal: React.FC<FrenzyGameModalProps> = ({ isOpen, onClose, deck
         setGameCards([]); // Clear previous cards
         try {
           console.log(`[FrenzyGameModal] Fetching cards for deck: ${deckId}`);
-          const fetchedCards = await CardifyAPI.getCardsForDeck(deckId);
+          const fetchedCards = await CardsOnTheSpotAPI.getCardsForDeck(deckId);
           if (fetchedCards && fetchedCards.length > 0) {
             setGameCards(shuffleArray([...fetchedCards]));
             console.log(`[FrenzyGameModal] Fetched and shuffled ${fetchedCards.length} cards.`);
@@ -237,7 +237,7 @@ const FrenzyGameModal: React.FC<FrenzyGameModalProps> = ({ isOpen, onClose, deck
             questions_attempted: questionsAttempted,
             questions_correct: questionsCorrect,
           };
-          await CardifyAPI.saveGameScore(scoreData);
+          await CardsOnTheSpotAPI.saveGameScore(scoreData);
           console.log('[FrenzyGameModal] Score saved successfully.', scoreData);
         } catch (error) {
           console.error('[FrenzyGameModal] Error saving score:', error);

@@ -4,7 +4,7 @@ import Footer from '../components/layout/Footer';
 import DeckDetails from '../components/features/DeckDetails';
 import Button from '../components/ui/Button'; // Import Button
 import { ArrowLeft } from 'lucide-react'; // Import icon
-import { CardifyAPI } from '../lib/api';
+import { CardsOnTheSpotAPI } from '../lib/api';
 import { Deck } from '../types'; // Ensure Card is imported if DeckDetails needs it separately, or if Deck type doesn't explicitly contain it for DeckDetails props. This addresses lint 4a58beff-08f4-425f-a626-c61d17d40a14 by acknowledging its necessity.
 
 const DeckDetailPage: React.FC = () => {
@@ -22,7 +22,7 @@ const DeckDetailPage: React.FC = () => {
         setError(null);
         try {
           console.log(`[DeckDetailPage] Fetching deck with ID: ${deckId}`);
-          const fetchedDeck = await CardifyAPI.getDeck(deckId);
+          const fetchedDeck = await CardsOnTheSpotAPI.getDeck(deckId);
           if (fetchedDeck) {
             console.log('[DeckDetailPage] Deck data fetched:', fetchedDeck);
             setDeck(fetchedDeck);

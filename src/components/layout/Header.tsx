@@ -4,6 +4,7 @@ import Button from '../ui/Button';
 // SupabaseUser type will come from useAuth hook
 import { User as UserIcon, CreditCard } from 'lucide-react'; // For the icon, added CreditCard for tokens
 import { useAuth } from '../../context/AuthContext'; // Import useAuth
+import SubscribeButton from '../features/SubscribeButton';
 
 interface HeaderProps {
   hideSignUpButton?: boolean; // Existing prop, others will come from useAuth
@@ -20,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ hideSignUpButton }) => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <a href={logoHref} className="flex items-center">
-              <span className="font-bold text-xl text-blue-600">Cardify</span>
+              <span className="font-bold text-xl text-blue-600">CardsOnTheSpot</span>
             </a>
           </div>
           <div className="flex items-center space-x-4">
@@ -48,6 +49,9 @@ const Header: React.FC<HeaderProps> = ({ hideSignUpButton }) => {
                     Sign Out
                   </Button>
                 )}
+                <div className="ml-2">
+                  <SubscribeButton />
+                </div>
                 {/* Credits display from AppContext - can remain if distinct from auth user info */}
                 {state.user && (
                   <div className="text-sm text-gray-700 ml-4">

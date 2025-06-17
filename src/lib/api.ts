@@ -3,7 +3,9 @@ import { supabase } from './supabaseClient'; // Assuming supabaseClient.ts is in
 
 // Connect to our backend API server
 const USE_MOCK_API = false;
-export const API_URL = 'http://localhost:3001';
+export const API_URL = '/api'; // Use relative path for Netlify rewrites in dev and prod
+
+console.log(`API_URL set to: ${API_URL} (PROD: ${import.meta.env.PROD}, DEV: ${import.meta.env.DEV})`);
 
 // For debugging API calls
 const debugAPI = (message: string, data?: unknown) => {
@@ -54,7 +56,7 @@ export const generateDeck = async (deckOptions: NewDeck): Promise<Deck> => {
     }
     
     // Real API implementation
-    debugAPI('Calling backend API at:', `${API_URL}/api/generate-deck`);
+    debugAPI('Calling backend API at:', `${API_URL}/generate-deck`);
     
     // Handle different types of source content
     const isFileObject = deckOptions.sourceValue instanceof File;
@@ -81,7 +83,7 @@ export const generateDeck = async (deckOptions: NewDeck): Promise<Deck> => {
       if (token) {
         fetchHeadersFile['Authorization'] = `Bearer ${token}`;
       }
-      response = await fetch(`${API_URL}/api/generate-deck`, {
+      response = await fetch(`${API_URL}/generate-deck`, {
         method: 'POST',
         headers: fetchHeadersFile,
         body: formData
@@ -92,7 +94,7 @@ export const generateDeck = async (deckOptions: NewDeck): Promise<Deck> => {
       if (token) {
         fetchHeadersJson['Authorization'] = `Bearer ${token}`;
       }
-      response = await fetch(`${API_URL}/api/generate-deck`, {
+      response = await fetch(`${API_URL}/generate-deck`, {
         method: 'POST',
         headers: fetchHeadersJson,
         body: JSON.stringify({
@@ -125,9 +127,9 @@ export const generateDeck = async (deckOptions: NewDeck): Promise<Deck> => {
 };
 
 /**
- * API service for Cardify
+ * API service for CardsOnTheSpot
  */
-export const CardifyAPI = {
+export const CardsOnTheSpotAPI = {
   /**
    * Generate a deck of flashcards from source content
    */
@@ -147,8 +149,8 @@ export const CardifyAPI = {
     }
 
     try {
-      debugAPI('Fetching decks from:', `${API_URL}/api/decks`);
-      const response = await fetch(`${API_URL}/api/decks`, { headers });
+      debugAPI('Fetching decks from:', `${API_URL}/decks`);
+      const response = await fetch(`${API_URL}/decks`, { headers });
       
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
@@ -176,7 +178,7 @@ export const CardifyAPI = {
 
     try {
       debugAPI('Fetching deck:', deckId);
-      const response = await fetch(`${API_URL}/api/decks/${deckId}`, { headers });
+      const response = await fetch(`${API_URL}/decks/${deckId}`, { headers });
       
       if (response.status === 404) {
         return null;
@@ -208,7 +210,7 @@ export const CardifyAPI = {
 
     try {
       debugAPI('Deleting deck:', deckId);
-      const response = await fetch(`${API_URL}/api/decks/${deckId}`, {
+      const response = await fetch(`${API_URL}/decks/${deckId}`, {
         method: 'DELETE',
         headers: headers,
       });

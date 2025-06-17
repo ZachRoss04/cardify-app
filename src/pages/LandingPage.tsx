@@ -18,7 +18,7 @@ const LandingPage: React.FC = () => {
                 Turn PDFs & URLs into cloze-deletion flashcards in 30 sec
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Upload any document, paste a URL, or text. Cardify instantly generates
+                Upload any document, paste a URL, or text. CardsOnTheSpot instantly generates
                 smart flashcards that boost recall and save hours of study time.
               </p>
               
@@ -41,7 +41,7 @@ const LandingPage: React.FC = () => {
                 Study smarter, not harder
               </h2>
               <p className="text-lg text-gray-600">
-                Cardify uses AI to identify key concepts and create effective flashcards
+                CardsOnTheSpot uses AI to identify key concepts and create effective flashcards
                 that follow proven learning science principles.
               </p>
             </div>
@@ -85,7 +85,7 @@ const LandingPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                How Cardify works
+                How CardsOnTheSpot works
               </h2>
               <p className="text-lg text-gray-600">
                 From content to completed flashcards in three simple steps
@@ -127,7 +127,7 @@ const LandingPage: React.FC = () => {
               Start creating effective flashcards today
             </h2>
             <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-              Join thousands of students who save hours of study time with Cardify's
+              Join thousands of students who save hours of study time with CardsOnTheSpot's
               AI-powered flashcard generation.
             </p>
             <div className="mb-4 max-w-md mx-auto">

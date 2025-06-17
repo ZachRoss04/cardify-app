@@ -7,7 +7,7 @@ import DeckCard from '../components/features/DeckCard';
 import DeckModal from '../components/features/DeckModal';
 import StudyModal from '../components/features/StudyModal'; // Import StudyModal
 import FrenzyGameModal from '../components/features/FrenzyGameModal'; // Import FrenzyGameModal
-import { CardifyAPI } from '../lib/api';
+import { CardsOnTheSpotAPI } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import { Deck } from '../types';
 
@@ -44,7 +44,7 @@ const DashboardPage: React.FC = () => {
     setError(null);
     
     try {
-      const fetchedDecks = await CardifyAPI.getDecks();
+      const fetchedDecks = await CardsOnTheSpotAPI.getDecks();
       console.log('[DashboardPage] Fetched decks response:', fetchedDecks); // DEBUG
       setDecks(sortDecks(fetchedDecks as Deck[])); // Sort decks after fetching
     } catch (err) {
@@ -69,7 +69,7 @@ const DashboardPage: React.FC = () => {
 
   const handleDeleteDeck = async (deckId: string) => {
     try {
-      await CardifyAPI.deleteDeck(deckId);
+      await CardsOnTheSpotAPI.deleteDeck(deckId);
       setDecks(prevDecks => prevDecks.filter(deck => deck.id !== deckId));
       console.log(`Deck ${deckId} deleted successfully.`);
     } catch (err) {
@@ -86,7 +86,7 @@ const DashboardPage: React.FC = () => {
 
   const handleToggleFavorite = async (deckId: string, newStatus: boolean) => {
     try {
-      const updatedDeck = await CardifyAPI.toggleDeckFavorite(deckId, newStatus);
+      const updatedDeck = await CardsOnTheSpotAPI.toggleDeckFavorite(deckId, newStatus);
       if (updatedDeck) {
         setDecks(prevDecks => 
           sortDecks(prevDecks.map(d => d.id === deckId ? { ...d, is_favorited: newStatus } : d))

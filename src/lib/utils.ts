@@ -1,5 +1,5 @@
 import { Card, NewDeck, Deck, User } from '../types'; // Import User from centralized types
-import { API_URL, CardifyAPI } from './api'; // Import API_URL and CardifyAPI
+import { API_URL, CardsOnTheSpotAPI } from './api'; // Import API_URL and CardsOnTheSpotAPI
 
 export const signupUser = async (email: string): Promise<{ user: User }> => {
   // Simulate API delay
@@ -27,7 +27,7 @@ export const generateDeck = async (deckOptions: NewDeck): Promise<{ cards: Card[
     });
     
     // Call our real API service
-    const result = await CardifyAPI.generateDeck(deckOptions);
+    const result = await CardsOnTheSpotAPI.generateDeck(deckOptions);
     console.log('[UTILS] Successfully generated cards:', result?.cards?.length || 0);
     return result;
   } catch (error: unknown) {

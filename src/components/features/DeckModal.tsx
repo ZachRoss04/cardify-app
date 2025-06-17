@@ -11,7 +11,7 @@ import { useAppContext } from '../../hooks/useAppContext';
 import { useAuth } from '../../context/AuthContext'; // Added for token refresh
 import { supabase } from '../../lib/supabaseClient'; // Added for Edge Function call
 import { createDeck } from '../../lib/utils';
-import { CardifyAPI } from '../../lib/api';
+import { CardsOnTheSpotAPI } from '../../lib/api';
 import { Card } from '../../types';
 
 // Moved progressStages outside the component as it's a constant
@@ -196,8 +196,8 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose, onDeckCreated })
         hasContent: !!state.newDeck.sourceValue
       });
       
-      // Use CardifyAPI directly - this is what worked in the test page
-      const result = await CardifyAPI.generateDeck(state.newDeck);
+      // Use CardsOnTheSpotAPI directly - this is what worked in the test page
+      const result = await CardsOnTheSpotAPI.generateDeck(state.newDeck);
       console.log('[MODAL] Generation result:', result);
       
       // Capture the generated deck ID
@@ -284,7 +284,7 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose, onDeckCreated })
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       
-      const updatedCard = await CardifyAPI.generateDeck({
+      const updatedCard = await CardsOnTheSpotAPI.generateDeck({
         ...state.newDeck,
         cardCount: 1
       });
@@ -340,7 +340,7 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose, onDeckCreated })
         finalDeckId = generatedDeckId;
         // If the title or other deck properties could have been edited in the UI *after* generation
         // but *before* clicking "Save Deck", an API call to update the deck might be needed here.
-        // For example: await CardifyAPI.updateDeck(generatedDeckId, { title: state.newDeck.title, ... });
+        // For example: await CardsOnTheSpotAPI.updateDeck(generatedDeckId, { title: state.newDeck.title, ... });
         // For now, we assume the deck created by /api/generate-deck is final or uses the latest title.
       } else {
         // This case should ideally not be hit if cards have been generated,

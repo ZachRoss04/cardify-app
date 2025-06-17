@@ -19,7 +19,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <p className="text-gray-500 text-sm mb-4"><strong>Last Updated:</strong> January 1, 2025</p>
             <hr className="my-6 border-gray-300" />
             <p className="text-gray-700 leading-relaxed">
-              Cardify (“we,” “us,” “our”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our Service.
+              CardsOnTheSpot (“we,” “us,” “our”) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our Service.
             </p>
             <hr className="my-6 border-gray-300" />
 
@@ -93,7 +93,7 @@ const PrivacyPolicyPage: React.FC = () => {
               <li>Request a copy of your data in a portable format;</li>
               <li>Withdraw consent where processing is based on consent.</li>
             </ul>
-            <p className="text-gray-700 leading-relaxed mt-3">To exercise these rights, contact <a href="mailto:support@cardify.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardify.ai</strong></a>.</p>
+            <p className="text-gray-700 leading-relaxed mt-3">To exercise these rights, contact <a href="mailto:support@cardsonthespot.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardsonthespot.ai</strong></a>.</p>
             <hr className="my-6 border-gray-300" />
 
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">8. Children’s Privacy</h2>
@@ -111,10 +111,10 @@ const PrivacyPolicyPage: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-3">10. Contact Information</h2>
             <p className="text-gray-700 leading-relaxed">
               If you have questions or concerns about this Privacy Policy, please contact:<br />
-              <a href="mailto:support@cardify.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardify.ai</strong></a>
+              <a href="mailto:support@cardsonthespot.ai" className="text-blue-600 hover:text-blue-700 hover:underline"><strong>support@cardsonthespot.ai</strong></a>
             </p>
             <p className="text-gray-700 leading-relaxed mt-6">
-              Thank you for trusting Cardify with your data. We take your privacy seriously.
+              Thank you for trusting CardsOnTheSpot with your data. We take your privacy seriously.
             </p>
 
           </section>

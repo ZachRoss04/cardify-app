@@ -8,9 +8,11 @@ import Slider from '../ui/Slider';
 import Toggle from '../ui/Toggle';
 import TagInput from '../ui/TagInput';
 // Removed unused Card import
-import { useAppContext } from '../../context/AppContext';
-import { regenerateCard, createDeck } from '../../lib/utils';
-import { CardifyAPI } from '../../lib/api';
+import { useContext } from 'react';
+import { AppContext } from '../../context/AppContext';
+import { createDeck } from '../../lib/utils';
+import { Card, AppState, AppStateAction, NewDeck } from '../../types';
+import { CardsOnTheSpotAPI } from '../../lib/api';
 
 interface DeckModalProps {
   isOpen: boolean;
@@ -18,7 +20,34 @@ interface DeckModalProps {
 }
 
 const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose }) => {
-  const { state, dispatch } = useAppContext();
+  let state: AppState;
+  let dispatch: React.Dispatch<AppStateAction>;
+
+  const appContextValue = useContext(AppContext);
+
+  if (!appContextValue) {
+    console.error('AppContext not available in DeckModal-bak. Using fallback state and dispatch.');
+    // Fallback state matching AppState structure
+    state = {
+      user: null,
+      newDeck: {
+        title: '',
+        sourceType: 'text',
+        sourceValue: null,
+        cardCount: 10, // Default card count
+        clozeStyle: 'single',
+        instruction: '',
+        mustIncludeTerms: [],
+      },
+      previewCards: [],
+      loading: false,
+      error: null,
+    };
+    dispatch = () => { /* no-op */ };
+  } else {
+    state = appContextValue.state;
+    dispatch = appContextValue.dispatch;
+  }
   const [activeTab, setActiveTab] = useState<'text' | 'pdf' | 'url'>('text');
   const [editingCard, setEditingCard] = useState<number | null>(null);
   const [editValues, setEditValues] = useState({ front: '', back: '' });
@@ -82,10 +111,7 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: 'UPDATE_NEW_DECK',
-      payload: { title: e.target.value }
-    });
+    dispatch({ type: 'UPDATE_NEW_DECK', payload: { title: e.target.value } });
   };
 
   const handleCardCountChange = (value: number) => {
@@ -146,8 +172,8 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose }) => {
         hasContent: !!state.newDeck.sourceValue
       });
       
-      // Use CardifyAPI directly - this is what worked in the test page
-      const result = await CardifyAPI.generateDeck(state.newDeck);
+      // Use CardsOnTheSpotAPI directly - this is what worked in the test page
+      const result = await CardsOnTheSpotAPI.generateDeck(state.newDeck);
       console.log('[MODAL] Generation result:', result);
       
       const cards = result?.cards;
@@ -211,9 +237,9 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose }) => {
     try {
       console.log('[MODAL] Regenerating card at index:', index);
       
-      // Use CardifyAPI directly to generate a new deck
+      // Use CardsOnTheSpotAPI directly to generate a new deck
       // In a production app, you'd have a specific endpoint for single card regeneration
-      const result = await CardifyAPI.generateDeck(state.newDeck);
+      const result = await CardsOnTheSpotAPI.generateDeck(state.newDeck);
       
       // Get a fresh card from the newly generated deck
       const freshCards = result.cards;
@@ -324,7 +350,7 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose }) => {
       // Update state with file object
       dispatch({
         type: 'UPDATE_NEW_DECK',
-        payload: { file }, // Assuming 'file' is in scope and is the correct payload
+        payload: { sourceValue: file, sourceType: 'pdf' } // Set sourceValue to the file object and sourceType to 'pdf'
       });
     }
   };
@@ -459,7 +485,7 @@ return (
           <div className="mt-6 mb-8">
             <TagInput
               label="Must Include Terms (Optional)"
-              tags={state.newDeck.mustIncludeTerms}
+              tags={state.newDeck.mustIncludeTerms || []}
               onChange={handleMustIncludeTermsChange}
               placeholder="Add terms to include..."
             />
@@ -520,7 +546,7 @@ return (
               </div>
 
               <div className="space-y-5">
-                {state.previewCards.map((card, index) => (
+                {state.previewCards.map((card: Card, index: number) => (
                   <div key={index} className="border rounded-lg overflow-hidden bg-gray-50">
                     {editingCard === index ? (
                       <div className="p-4">

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { X, ArrowLeft, ArrowRight, RefreshCcw, Zap, Sun, Moon, Inbox } from 'lucide-react'; // Added Inbox
 import ReactCardFlip from 'react-card-flip'; // Import react-card-flip
 import { Card } from '../../types';
-import { CardifyAPI } from '../../lib/api';
+import { CardsOnTheSpotAPI } from '../../lib/api';
 import Button from '../ui/Button';
 
 interface StudyModalProps {
@@ -28,8 +28,8 @@ const StudyModal: React.FC<StudyModalProps> = ({ isOpen, onClose, deckId }) => {
       // TODO: This API endpoint might not exist yet. 
       // We might need to fetch the full deck details which includes cards,
       // or create a new endpoint like getDeckCards(deckId).
-      // For now, assuming CardifyAPI.getDeck(deckId) returns { cards: Card[] }
-      const deckDetails = await CardifyAPI.getDeck(deckId);
+      // For now, assuming CardsOnTheSpotAPI.getDeck(deckId) returns { cards: Card[] }
+      const deckDetails = await CardsOnTheSpotAPI.getDeck(deckId);
       if (deckDetails) { // deckDetails itself could be null if not found
         setCards(deckDetails.cards || []); // Use cards array or empty if undefined
         setDeckTitle(deckDetails.title);   // Set the deck title

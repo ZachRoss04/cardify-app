@@ -24,7 +24,7 @@ import Footer from '../components/layout/Footer'; // Re-using existing footer if
 import DeckModalPreviewImage from '../assets/images/deck-modal-preview.png';
 
 // Placeholder for a simple flashcard icon
-const CardifyLogo = () => (
+const CardsOnTheSpotLogo = () => (
   <div className="flex items-center space-x-2">
     {/* Simple flashcard icon representation */}
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600">
@@ -32,7 +32,7 @@ const CardifyLogo = () => (
       <path d="M9 9H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       <path d="M9 13H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
     </svg>
-    <span className="font-bold text-2xl text-gray-800">Cardify</span>
+    <span className="font-bold text-2xl text-gray-800">CardsOnTheSpot</span>
   </div>
 );
 
@@ -61,7 +61,7 @@ const NewLandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
-              <a href="/"><CardifyLogo /></a>
+              <a href="/"><CardsOnTheSpotLogo /></a>
             </div>
             <div className="hidden md:flex items-center space-x-6">
               <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
@@ -90,7 +90,7 @@ const NewLandingPage: React.FC = () => {
             {/* Left Column */}
             <div className="text-center md:text-left">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6 font-['Inter',_sans-serif]">
-                Decks in <span className="text-blue-600">30 Seconds</span>—Study Smarter with Cardify
+                Decks in <span className="text-blue-600">30 Seconds</span>—Study Smarter with CardsOnTheSpot
               </h1>
               <p className="text-lg sm:text-xl text-gray-700 mb-10 font-['Inter',_sans-serif]">
                 Upload PDFs, paste URLs, or drop in text and instantly get cloze-deletion flashcards.
@@ -110,25 +110,25 @@ const NewLandingPage: React.FC = () => {
             {/* Right Column */}
             <div className="hidden md:block mt-10 md:mt-0">
               <div className="bg-gray-200 rounded-lg shadow-xl h-96 flex items-center justify-center">
-                <img src={DeckModalPreviewImage} alt="Cardify Deck Modal Preview" className="object-contain h-full w-full rounded-lg" />
+                <img src={DeckModalPreviewImage} alt="CardsOnTheSpot Deck Modal Preview" className="object-contain h-full w-full rounded-lg" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Why Cardify (Feature Highlights) */}
+      {/* 3. Why CardsOnTheSpot (Feature Highlights) */}
       <section id="features" className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 font-['Inter',_sans-serif]">
-              Why Cardify?
+              Why CardsOnTheSpot?
             </h2>
             <p className="text-lg text-gray-600 font-['Inter',_sans-serif]">
               Everything you need to supercharge your study workflow.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+          <div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
             {[ // Array of feature objects
               {
                 icon: 'Zap', // lucide-react icon name
@@ -143,19 +143,13 @@ const NewLandingPage: React.FC = () => {
               {
                 icon: 'BrainCircuit', // lucide-react icon name (alternative for AI)
                 title: 'AI-Powered Accuracy',
-                description: 'Cardify pulls testable facts, definitions, dates and formulas with precision.',
+                description: 'CardsOnTheSpot pulls testable facts, definitions, dates and formulas with precision.',
               },
               {
                 icon: 'DownloadCloud', // lucide-react icon name
                 title: 'Seamless Exports',
                 description: 'Download CSVs formatted for Anki or Quizlet with one click—no copy-paste headaches.',
               },
-              {
-                icon: 'Gift', // lucide-react icon name
-                title: 'Earn Bonus Credits',
-                description: 'Share your referral link to unlock free extra decks.',
-              },
-              // You can add a 6th item here for a perfect 2x3 or 3x2 grid, or adjust grid-cols if 5 is final
             ].map((feature, index) => {
               const LucideIcon = iconMap[feature.icon] || iconMap['HelpCircle'];
               return (
@@ -179,28 +173,22 @@ const NewLandingPage: React.FC = () => {
               How It Works
             </h2>
             <p className="text-lg text-gray-600 font-['Inter',_sans-serif]">
-              Create flashcard decks in three simple steps.
+              Create flashcard decks in two simple steps.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+          <div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
             {[ // Array of step objects
               {
                 step: 1,
                 icon: 'UploadCloud',
                 title: 'Upload Your Content',
-                description: 'Paste text, upload a PDF/DOCX, or drop a URL. Cardify handles the rest.',
+                description: 'Paste text, upload a PDF/DOCX, or drop a URL. CardsOnTheSpot handles the rest.',
               },
               {
                 step: 2,
                 icon: 'Settings2',
                 title: 'Customize (Optional)',
                 description: 'Set card count, style (single/multi-blank), or add must-include terms.',
-              },
-              {
-                step: 3,
-                icon: 'Sparkles',
-                title: 'Generate & Export',
-                description: 'Get your deck in seconds. Download for Anki/Quizlet or study in-app.',
               },
             ].map((item) => {
               const LucideIcon = iconMap[item.icon] || iconMap['HelpCircle'];
@@ -282,7 +270,7 @@ const NewLandingPage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[ // Array of testimonial objects
               {
-                quote: "Cardify cut my study time in half! AI-generated cards are surprisingly accurate.",
+                quote: "CardsOnTheSpot cut my study time in half! AI-generated cards are surprisingly accurate.",
                 name: 'Sarah L.',
                 title: 'Med Student',
               },
@@ -292,7 +280,7 @@ const NewLandingPage: React.FC = () => {
                 title: 'Software Engineer',
               },
               {
-                quote: "I use Cardify to learn new languages. It's much faster than making cards by hand.",
+                quote: "I use CardsOnTheSpot to learn new languages. It's much faster than making cards by hand.",
                 name: 'Maria K.',
                 title: 'Polyglot',
               },

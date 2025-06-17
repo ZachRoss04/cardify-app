@@ -6,7 +6,7 @@ import Button from '../components/ui/Button'; // Assuming you have a Button comp
 
 const AuthPage: React.FC = () => {
   // Placeholder for your App Name or Logo text
-  const appName = "Cardify";
+  const appName = "CardsOnTheSpot";
   const { user, loading: authLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -99,7 +99,7 @@ const AuthPage: React.FC = () => {
             &larr; Back to Home
           </a>
         </div>
-        {/* Logo Placeholder - Cardify App Name Below */}
+        {/* Logo Placeholder - CardsOnTheSpot App Name Below */}
         <div className="text-center">
           {/* Example: <img className="mx-auto h-12 w-auto" src="/logo.png" alt={appName} /> */}
           <h1 className="text-4xl font-bold text-indigo-600 tracking-tight">
@@ -220,7 +220,7 @@ const AuthPage: React.FC = () => {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-600">
-                  {isSignUp ? 'Already have an account?' : 'New to Cardify?'}
+                  {isSignUp ? 'Already have an account?' : 'New to CardsOnTheSpot?'}
                 </span>
               </div>
             </div>

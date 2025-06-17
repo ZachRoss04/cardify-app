@@ -13,6 +13,8 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import UpdatePasswordPage from './pages/UpdatePasswordPage';
+import SuccessPage from './pages/SuccessPage';
+import CancelPage from './pages/CancelPage';
 
 // Helper component to manage WelcomeOverlay logic within the Router context
 const WelcomeManager: React.FC = () => {
@@ -20,7 +22,7 @@ const WelcomeManager: React.FC = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    const hasSeenWelcome = localStorage.getItem('cardify_welcomed');
+    const hasSeenWelcome = localStorage.getItem('cardsonthespot_welcomed');
     const currentPath = location.pathname;
     if (!hasSeenWelcome && (currentPath === '/dashboard' || currentPath.startsWith('/deck/'))) {
       setShowWelcome(true);
@@ -29,7 +31,7 @@ const WelcomeManager: React.FC = () => {
 
   const handleWelcomeComplete = () => {
     setShowWelcome(false);
-    localStorage.setItem('cardify_welcomed', 'true');
+    localStorage.setItem('cardsonthespot_welcomed', 'true');
   };
 
   return showWelcome ? <WelcomeOverlay onComplete={handleWelcomeComplete} /> : null;
@@ -57,6 +59,8 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/update-password" element={<UpdatePasswordPage />} />
+              <Route path="/success" element={<ProtectedRoute><SuccessPage /></ProtectedRoute>} />
+              <Route path="/cancel" element={<ProtectedRoute><CancelPage /></ProtectedRoute>} />
             </Routes>
           </div>
         </AppProvider>

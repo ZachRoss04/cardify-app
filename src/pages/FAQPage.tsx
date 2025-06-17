@@ -39,8 +39,8 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 const FAQPage: React.FC = () => {
   const faqs = [
     {
-      question: 'What is Cardify?',
-      answer: 'Cardify is an intelligent flashcard application that helps you create study materials from your notes, documents, or web content quickly and efficiently using AI.'
+      question: 'What is CardsOnTheSpot?',
+      answer: 'CardsOnTheSpot is an intelligent flashcard application that helps you create study materials from your notes, documents, or web content quickly and efficiently using AI.'
     },
     {
       question: 'How do I create a new deck?',

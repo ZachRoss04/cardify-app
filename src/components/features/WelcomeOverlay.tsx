@@ -28,7 +28,7 @@ const WelcomeOverlay: React.FC<WelcomeOverlayProps> = ({ onComplete }) => {
   // Define the welcome messages
   const messages = [
     {
-      title: "Welcome to Cardify",
+      title: "Welcome to CardsOnTheSpot",
       description: "Your AI-powered flashcard assistant",
       icon: <Sparkles className="h-10 w-10 text-blue-400" />
     },

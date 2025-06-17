@@ -310,7 +310,54 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose, onDeckCreated })
   };
 
   const handleCreateDeck = async () => {
-    console.log(`[DeckModal] handleCreateDeck called at: ${new Date().toISOString()}, generatedDeckId: ${generatedDeckId}`);
+    if (!auth.user) {
+      dispatch({ type: 'SET_ERROR', payload: 'You must be logged in to create a deck.' });
+      return;
+    }
+
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'SET_ERROR', payload: null }); // Clear previous errors
+
+    try {
+      // Fetch current number of decks for the user
+      const { count: currentDeckCount, error: countError } = await supabase
+        .from('decks')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', auth.user.id);
+
+      if (countError) {
+        console.error('Error fetching deck count:', countError);
+        dispatch({ type: 'SET_ERROR', payload: 'Could not verify your current deck count. Please try again.' });
+        dispatch({ type: 'SET_LOADING', payload: false });
+        return;
+      }
+
+      const isProUser = auth.subscriptionStatus === 'active';
+      const deckLimit = isProUser ? 50 : 20;
+
+      if (currentDeckCount !== null && currentDeckCount >= deckLimit) {
+        const limitMessage = isProUser
+          ? 'You have reached the Pro plan deck limit (50 decks).'
+          : 'You have reached the Free plan deck limit (20 decks). Upgrade to Pro for more decks!';
+        dispatch({ type: 'SET_ERROR', payload: limitMessage });
+        dispatch({ type: 'SET_LOADING', payload: false });
+        return;
+      }
+    } catch (e) {
+      console.error('Error checking deck limits:', e);
+      dispatch({ type: 'SET_ERROR', payload: 'An unexpected error occurred while checking deck limits.' });
+      dispatch({ type: 'SET_LOADING', payload: false });
+      return;
+    }
+    // Ensure all necessary data is present
+    if (!state.newDeck.sourceValue || !state.newDeck.title || !state.newDeck.title.trim()) {
+      dispatch({
+        type: 'SET_ERROR',
+        payload: 'Please provide a title for your deck.',
+      });
+      return;
+    }
+
     // Validate preview cards
     if (!state.previewCards || state.previewCards.length === 0) {
       dispatch({
@@ -320,14 +367,10 @@ const DeckModal: React.FC<DeckModalProps> = ({ isOpen, onClose, onDeckCreated })
       return;
     }
 
+    console.log(`[DeckModal] handleCreateDeck called at: ${new Date().toISOString()}, generatedDeckId: ${generatedDeckId}`);
     // Validate title
-    if (!state.newDeck.title || !state.newDeck.title.trim()) {
-      dispatch({
-        type: 'SET_ERROR',
-        payload: 'Please provide a title for your deck.',
-      });
-      return;
-    }
+    // Removed validation for title here as it's already validated above
+
 
     dispatch({ type: 'SET_LOADING', payload: true });
     dispatch({ type: 'SET_ERROR', payload: null });

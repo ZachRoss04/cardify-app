@@ -2,6 +2,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL; // Use VITE_ prefix as it's set in Netlify UI
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Supabase URL or Anon Key is missing for function authentication. Check Netlify environment variables.');
@@ -10,6 +11,17 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 // Initialize a global Supabase client for auth purposes if needed, though typically we use user's token
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Function to create a Supabase client with Service Role privileges
+function createSupabaseServiceRoleClient() {
+  if (!supabaseServiceKey) {
+    console.error('SUPABASE_SERVICE_KEY is not set. This client will not have admin privileges.');
+    // Fallback to anon key or handle error as appropriate for your security model
+    // For now, we'll throw an error if it's critical for the operation
+    throw new Error('SUPABASE_SERVICE_KEY is required for service role operations.');
+  }
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 async function authenticateRequest(event) {
   const authHeader = event.headers.authorization;
@@ -64,4 +76,4 @@ async function authenticateRequest(event) {
   }
 }
 
-module.exports = { authenticateRequest, createClient, supabaseUrl, supabaseAnonKey };
+module.exports = { authenticateRequest, createClient, supabaseUrl, supabaseAnonKey, createSupabaseServiceRoleClient, supabaseServiceKey };

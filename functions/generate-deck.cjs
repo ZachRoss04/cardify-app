@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-const { authenticateRequest, createClient: createSupabaseClient, supabaseUrl, supabaseAnonKey } = require('./utils/auth.cjs'); // Assuming auth.js is in utils
+const { authenticateRequest, createSupabaseServiceRoleClient } = require('./utils/auth.cjs');
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdfjsLib = require("pdfjs-dist");
@@ -49,6 +49,8 @@ const model = genAI.getGenerativeModel({
   safetySettings
 });
 
+const DECK_GENERATION_COST = 10; // Define the cost for generating a deck
+
 exports.handler = async function(event, context) {
   // Authenticate the request (optional here if generation itself is not tied to a user, but good for protecting API key usage)
   const authResult = await authenticateRequest(event);
@@ -59,7 +61,52 @@ exports.handler = async function(event, context) {
       headers: { 'Content-Type': 'application/json' }
     };
   }
-  // const { user, supabase_token } = authResult; // User context if needed later
+  const { user } = authResult; // user.id is what we need
+
+  // --- BEGIN Token/Subscription Check --- 
+  const serviceRoleSupabase = createSupabaseServiceRoleClient();
+  let userProfile;
+
+  try {
+    const { data: profileData, error: profileError } = await serviceRoleSupabase
+      .from('user_profiles')
+      .select('token_count, subscription_status')
+      .eq('id', user.id)
+      .single();
+
+    if (profileError) {
+      console.error(`Error fetching user profile for ${user.id}:`, profileError.message);
+      return { statusCode: 500, body: JSON.stringify({ error: 'Failed to fetch user profile for token processing.', details: profileError.message }), headers: { 'Content-Type': 'application/json' } };
+    }
+    if (!profileData) {
+       console.error(`No user profile found for ${user.id}. This might indicate an issue with profile creation upon signup.`);
+       return { statusCode: 404, body: JSON.stringify({ error: 'User profile not found.' }), headers: { 'Content-Type': 'application/json' } };
+    }
+    userProfile = profileData;
+  } catch (e) {
+    console.error('Exception fetching user profile:', e.message);
+    return { statusCode: 500, body: JSON.stringify({ error: 'Server error while fetching user profile.', details: e.message }), headers: { 'Content-Type': 'application/json' } };
+  }
+
+  let deductTokens = false;
+
+  if (userProfile.subscription_status === 'active') {
+    console.log(`User ${user.id} is an active subscriber. Skipping token check.`);
+  } else {
+    if (userProfile.token_count >= DECK_GENERATION_COST) {
+      console.log(`User ${user.id} has enough tokens (${userProfile.token_count}). Cost: ${DECK_GENERATION_COST}`);
+      deductTokens = true;
+    } else {
+      console.log(`User ${user.id} has insufficient tokens (${userProfile.token_count}). Required: ${DECK_GENERATION_COST}`);
+      return {
+        statusCode: 402, // Payment Required
+        body: JSON.stringify({ error: `Insufficient tokens. You have ${userProfile.token_count}, but ${DECK_GENERATION_COST} are required to generate a deck. Please purchase more tokens or subscribe for unlimited access.` }),
+        headers: { 'Content-Type': 'application/json' }
+      };
+    }
+  }
+  // --- END Token/Subscription Check --- 
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -283,7 +330,25 @@ Return ONLY the JSON array of flashcards. Do not include any other explanatory t
           headers: { 'Content-Type': 'application/json' }
         };
     }
-    
+
+    // --- BEGIN Token Deduction --- 
+    if (deductTokens) {
+      const new_token_count = userProfile.token_count - DECK_GENERATION_COST;
+      const { error: updateError } = await serviceRoleSupabase
+        .from('user_profiles')
+        .update({ token_count: new_token_count })
+        .eq('id', user.id);
+
+      if (updateError) {
+        // CRITICAL: Generation happened, but token deduction failed.
+        // Log this serious issue. For now, return cards as user got the service, but this needs monitoring.
+        console.error(`CRITICAL: Failed to deduct tokens for user ${user.id} after successful generation. Error: ${updateError.message}`);
+      } else {
+        console.log(`Successfully deducted ${DECK_GENERATION_COST} tokens from user ${user.id}. New balance: ${new_token_count}`);
+      }
+    }
+    // --- END Token Deduction --- 
+
     return {
       statusCode: 200,
       body: JSON.stringify({

@@ -4,10 +4,16 @@ import fetch from "node-fetch";
 import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-const { authenticateRequest, createSupabaseServiceRoleClient } = require('./utils/auth.cjs');
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const pdfjsLib = require("pdfjs-dist");
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
+
+// Set the worker source for pdfjs-dist in Node.js environment
+// Netlify's bundler should pick up this path. If issues persist, this path might need adjustment
+// or we might need to ensure the worker file is explicitly included in the function bundle.
+if (typeof window === 'undefined') { // Check if running in Node.js (not a browser)
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/legacy/build/pdf.worker.js';
+}
+
+import { authenticateRequest, createSupabaseServiceRoleClient } from './utils/auth.cjs';
 
 // Environment variables are loaded from Netlify build settings.
 
